@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Pinfo from "./pinfo";
-import Edu from "./edu";
+import EduItem from "./edu";
 import Exp from "./exp";
 import Delete from "./delete";
 class EduObj {
@@ -33,13 +33,14 @@ export default function App() {
     console.log(e.target);
     setPersonalInfo({ ...personalInfo, [e.target.name]: e.target.value });
   }
-  function handleAddEduItems() {
-    const newEduItems = [];
-    for (const i of eduItems) {
-      newEduItems.push({ ...i });
+  function handleAdd(target) {
+    const newItems = [];
+    for (const i of target) {
+      newItems.push({ ...i });
     }
-    newEduItems.push(new EduObj());
-    setEduItems(newEduItems);
+    newItems.push(target === eduItems ? new EduObj() : new ExpObj());
+    if (target === eduItems) setEduItems(newItems);
+    else setExpItems(newItems);
   }
   function handleOtherInfoChange(type, e) {
     const t = type === "edu" ? eduItems : expItems;
@@ -48,7 +49,7 @@ export default function App() {
     if (type === "edu") setEduItems([...t]);
     else setExpItems(setExpItems([...t]));
   }
-  function handleDelete(id, type) {
+  function handleDelete(type, id) {
     const t = type === "edu" ? eduItems : expItems;
     const i = t.findIndex((v) => v.id === id);
     if (type === "edu") setEduItems(t.toSpliced(i, 1));
@@ -68,12 +69,21 @@ export default function App() {
       <main>
         <div className="left">
           <Pinfo info={personalInfo} onChange={handlePinfoChange}></Pinfo>
-          <Edu
-            info={eduItems}
-            onAdd={handleAddEduItems}
-            onChange={(e) => handleOtherInfoChange("edu", e)}
-            onDelete={handleDelete}
-          ></Edu>
+          <section className="edu-section">
+            <h2>Education</h2>
+            {eduItems.map((item) => (
+              <EduItem
+                key={item.id}
+                id={item.id}
+                university={item.university}
+                degree={item.degree}
+                subject={item.subject}
+                onChange={(e) => handleOtherInfoChange("edu", e)}
+                onDelete={handleDelete}
+              ></EduItem>
+            ))}
+            <button onClick={() => handleAdd(eduItems)}>Add</button>
+          </section>
           <Exp></Exp>
         </div>
         <div className="right">
@@ -98,11 +108,26 @@ export default function App() {
           ) : (
             ""
           )}
-          <hr />
           {eduItems.length ? (
             <>
+              <hr />
               <h2>Educational experience</h2>
-              {eduItems.map((v) => "4")}
+              {eduItems.map((v) => (
+                <div>
+                  <p>
+                    <b>University: </b>
+                    {v.university}
+                  </p>
+                  <p>
+                    <b>Degree: </b>
+                    {v.degree}
+                  </p>
+                  <p>
+                    <b>Subject: </b>
+                    {v.subject}
+                  </p>
+                </div>
+              ))}
             </>
           ) : (
             ""

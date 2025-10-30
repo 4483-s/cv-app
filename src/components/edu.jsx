@@ -1,28 +1,15 @@
 import Delete from "./delete";
-export default function Edu({ onAdd, info, onChange, onDelete }) {
-  return (
-    <section className="edu-section">
-      <h2>Education</h2>
-      {info.map((item) => (
-        <EduItem
-          key={item.id}
-          id={item.id}
-          university={item.university}
-          degree={item.degree}
-          subject={item.subject}
-          onChange={onChange}
-          onDelete={onDelete}
-        ></EduItem>
-      ))}
-      <button onClick={onAdd}>Add</button>
-    </section>
-  );
-}
-function EduItem({ id, university, degree, subject, onChange, onDelete }) {
-  console.log(onChange);
+export default function EduItem({
+  id,
+  university,
+  degree,
+  subject,
+  onChange,
+  onDelete,
+}) {
   return (
     <div className="cards">
-      <Delete onDelete={() => onDelete(id, "edu")}></Delete>
+      <Delete onDelete={() => onDelete("edu", id)}></Delete>
       <div>
         <label>
           <div> {"University: "}</div>
