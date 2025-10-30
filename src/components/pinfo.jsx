@@ -1,33 +1,18 @@
-export default function Pinfo(p) {
-  console.log(p);
+export default function Pinfo({ info, onChange }) {
+  // console.log(p);
   return (
     <section className="personal-info">
       <h2>Personal information</h2>
       <label>
-        <div> {"First Name: "}</div>
-        <input
-          type="text"
-          onChange={p.personalInfo.onChange}
-          value={p.firstName}
-          name="firstName"
-        />
-      </label>
-      <label>
-        <div> {"Last Name: "}</div>
-        <input
-          type="text"
-          onChange={p.personalInfo.onChange}
-          // value={p.personalInfo.lastName}
-          value={undefined}
-          name="lastName"
-        />
+        <div> {"Name: "}</div>
+        <input type="text" onChange={onChange} value={info.name} name="name" />
       </label>
       <label>
         <div> {"Email: "}</div>
         <input
           type="email"
-          onChange={p.personalInfo.onChange}
-          value={p.email}
+          onChange={onChange}
+          value={info.email}
           name="email"
         />
       </label>
@@ -35,8 +20,8 @@ export default function Pinfo(p) {
         <div>{"Phone: "}</div>
         <input
           type="text"
-          onChange={p.personalInfo.onChange}
-          value={p.phone}
+          onChange={onChange}
+          value={info.phone}
           name="phone"
         />
       </label>

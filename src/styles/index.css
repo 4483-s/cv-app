@@ -82,8 +82,7 @@ section button {
 main {
   display: flex;
 }
-.left,
-.right {
+.left {
   flex: 1;
   display: flex;
   flex-direction: column;
@@ -92,6 +91,12 @@ main {
 }
 .left {
   align-items: flex-start;
+}
+.right {
+  background: white;
+  color: black;
+  flex: 1;
+  padding: 2em;
 }
 section {
   color: black;

@@ -1,7 +1,7 @@
-export default function Delete({ onClick }) {
+export default function Delete({ onDelete }) {
   return (
     <div className="del-container">
-      <button className="del" onClick={onClick}>
+      <button className="del" onClick={onDelete}>
         X
       </button>
     </div>
