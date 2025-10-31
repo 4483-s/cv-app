@@ -4,12 +4,14 @@ export default function EduItem({
   university,
   degree,
   subject,
+  dateStart,
+  dateEnd,
   onChange,
   onDelete,
 }) {
   return (
     <div className="cards">
-      <Delete onDelete={() => onDelete("edu", id)}></Delete>
+      <Delete onDelete={() => onDelete(id)}></Delete>
       <div>
         <label>
           <div> {"University: "}</div>
@@ -39,6 +41,26 @@ export default function EduItem({
             onChange={onChange}
             data-id={id}
             data-type="subject"
+          />
+        </label>
+        <label>
+          <div>{"From: "}</div>
+          <input
+            type="date"
+            value={dateStart}
+            onChange={onChange}
+            data-id={id}
+            data-type="dateStart"
+          />
+        </label>
+        <label>
+          <div>{"To: "}</div>
+          <input
+            type="date"
+            value={dateEnd}
+            onChange={onChange}
+            data-id={id}
+            data-type="dateEnd"
           />
         </label>
       </div>

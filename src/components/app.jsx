@@ -1,18 +1,21 @@
 import { useState } from "react";
 import Pinfo from "./pinfo";
 import EduItem from "./edu";
-import Exp from "./exp";
-import Delete from "./delete";
+import ExpItem from "./exp";
+import EduCard from "./preview/educard";
+import ExpCard from "./preview/expcard";
 class EduObj {
   university = "";
   degree = "";
   subject = "";
+  dateStart = "";
+  dateEnd = "";
   id = crypto.randomUUID();
 }
 class ExpObj {
   company = "";
   title = "";
-  responsibilities = "";
+  res = "";
   id = crypto.randomUUID();
 }
 //
@@ -22,6 +25,8 @@ class ExpObj {
 //
 //
 export default function App() {
+  const [showPreview, setShowPreview] = useState(true);
+  const [showInput, setShowInput] = useState(true);
   const [personalInfo, setPersonalInfo] = useState({
     name: "",
     email: "",
@@ -29,8 +34,8 @@ export default function App() {
   });
   const [eduItems, setEduItems] = useState([new EduObj()]);
   const [expItems, setExpItems] = useState([new ExpObj()]);
+  //
   function handlePinfoChange(e) {
-    console.log(e.target);
     setPersonalInfo({ ...personalInfo, [e.target.name]: e.target.value });
   }
   function handleAdd(target) {
@@ -47,28 +52,33 @@ export default function App() {
     const i = t.findIndex((v) => v.id === e.target.dataset.id);
     t[i][e.target.dataset.type] = e.target.value;
     if (type === "edu") setEduItems([...t]);
-    else setExpItems(setExpItems([...t]));
+    else setExpItems([...t]);
   }
   function handleDelete(type, id) {
+    console.log(expItems);
     const t = type === "edu" ? eduItems : expItems;
     const i = t.findIndex((v) => v.id === id);
     if (type === "edu") setEduItems(t.toSpliced(i, 1));
-    else setExpItems(setExpItems(t.toSpliced(i, 1)));
+    else setExpItems(t.toSpliced(i, 1));
   }
+  function leftEl() {}
 
   return (
     <div className="container">
       <nav>
-        <h1>CV</h1>
+        <h1>Curriculum Vitae</h1>
         <div>
           <button>Print</button>
-          <button>Input</button>
-          <button>Preview</button>
+          <button onClick={() => setShowInput(!showInput)}>Input</button>
+          <button onClick={() => setShowPreview(!showPreview)}>Preview</button>
         </div>
       </nav>
       <main>
         <div className="left">
+          {/* pinfo */}
           <Pinfo info={personalInfo} onChange={handlePinfoChange}></Pinfo>
+          {/* pinfo */}
+          {/* edu */}
           <section className="edu-section">
             <h2>Education</h2>
             {eduItems.map((item) => (
@@ -79,62 +89,81 @@ export default function App() {
                 degree={item.degree}
                 subject={item.subject}
                 onChange={(e) => handleOtherInfoChange("edu", e)}
-                onDelete={handleDelete}
+                onDelete={(id) => handleDelete("edu", id)}
               ></EduItem>
             ))}
             <button onClick={() => handleAdd(eduItems)}>Add</button>
           </section>
-          <Exp></Exp>
+          {/* edu */}
+          <section className="exp-section">
+            <h2>Experience</h2>
+            {expItems.map((item) => (
+              <ExpItem
+                key={item.id}
+                id={item.id}
+                company={item.company}
+                title={item.title}
+                onChange={(e) => handleOtherInfoChange("exp", e)}
+                onDelete={(id) => handleDelete("exp", id)}
+              ></ExpItem>
+            ))}
+            <button onClick={() => handleAdd(expItems)}>Add</button>
+          </section>
         </div>
+        {/*
+
+        right 
+
+        */}
         <div className="right">
-          <h1>Personal Information</h1>
-          <hr />
-          <p>
-            <b>Name: </b>
-            {personalInfo.name}
-          </p>
-          {personalInfo.email ? (
+          <div>
+            <h1>Personal Information</h1>
+            <hr />
             <p>
-              <b>Email: </b> {personalInfo.email}
+              <b>Name: </b>
+              {personalInfo.name}
             </p>
-          ) : (
-            ""
-          )}
-          {personalInfo.phone ? (
-            <p>
-              <b>Phone: </b>
-              {personalInfo.phone}
-            </p>
-          ) : (
-            ""
-          )}
+            {personalInfo.email ? (
+              <p>
+                <b>Email: </b> {personalInfo.email}
+              </p>
+            ) : (
+              ""
+            )}
+            {personalInfo.phone ? (
+              <p>
+                <b>Phone: </b>
+                {personalInfo.phone}
+              </p>
+            ) : (
+              ""
+            )}
+          </div>
+          {/* 
+
+          pinfoend 
+
+
+          */}
           {eduItems.length ? (
             <>
               <hr />
               <h2>Educational experience</h2>
-              {eduItems.map((v) => (
-                <div>
-                  <p>
-                    <b>University: </b>
-                    {v.university}
-                  </p>
-                  <p>
-                    <b>Degree: </b>
-                    {v.degree}
-                  </p>
-                  <p>
-                    <b>Subject: </b>
-                    {v.subject}
-                  </p>
-                </div>
-              ))}
+              <EduCard items={eduItems}></EduCard>
             </>
           ) : (
             ""
           )}
 
-          <hr />
-          {expItems.length ? <h2>Working experience</h2> : ""}
+          {expItems.length ? (
+            <>
+              <hr />
+              <h2>Working experience</h2>
+              <ExpCard items={expItems}></ExpCard>
+            </>
+          ) : (
+            ""
+          )}
         </div>
       </main>
     </div>

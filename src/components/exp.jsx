@@ -1,41 +1,66 @@
 import Delete from "./delete.jsx";
-export default function Exp() {
-  return (
-    <section className="exp-section">
-      <h2>Experience</h2>
-      <ExpItem></ExpItem>
-      <button>Add</button>
-    </section>
-  );
-}
-function ExpItem() {
+export default function ExpItem({
+  id,
+  company,
+  res,
+  title,
+  dateStart,
+  dateEnd,
+  onChange,
+  onDelete,
+}) {
   return (
     <div className="cards">
-      <Delete></Delete>
+      <Delete onDelete={() => onDelete(id)}></Delete>
       <div>
         <label>
-          <div>{"Company: "}</div>
-          <input type="text" className="uni-name" />
+          <div> {"Company: "}</div>
+          <input
+            type="text"
+            value={company}
+            onChange={onChange}
+            data-id={id}
+            data-type="company"
+          />
         </label>
         <label>
-          <div>{"Title: "}</div>
-          <input type="text" className="degree" />
+          <div> {"Title: "}</div>
+          <input
+            type="text"
+            value={title}
+            onChange={onChange}
+            data-id={id}
+            data-type="title"
+          />
         </label>
         <label>
-          <div>{": "}</div>
-          <input type="text" className="subject" />
+          <div>{"From: "}</div>
+          <input
+            type="date"
+            value={dateStart}
+            onChange={onChange}
+            data-id={id}
+            data-type="dateStart"
+          />
         </label>
         <label>
-          <div>{"from: "}</div>
-          <input type="date" />
+          <div>{"To: "}</div>
+          <input
+            type="date"
+            value={dateEnd}
+            onChange={onChange}
+            data-id={id}
+            data-type="dateEnd"
+          />
         </label>
         <label>
-          <div>{"to: "}</div>
-          <input type="date" />
-        </label>
-        <label>
-          <div>{"Responsibilities: "}</div>
-          <textarea></textarea>
+          <div> {"Responsibilities: "}</div>
+          <textarea
+            value={res}
+            onChange={onChange}
+            data-id={id}
+            data-type="res"
+          ></textarea>
         </label>
       </div>
     </div>
