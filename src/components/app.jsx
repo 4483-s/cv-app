@@ -65,7 +65,6 @@ export default function App() {
       <div className="left">
         {/* pinfo */}
         <Pinfo info={personalInfo} onChange={handlePinfoChange}></Pinfo>
-        {/* pinfo */}
         {/* edu */}
         <section className="edu-section">
           <h2>Education</h2>
@@ -80,9 +79,9 @@ export default function App() {
               onDelete={(id) => handleDelete("edu", id)}
             ></EduItem>
           ))}
-          <button onClick={() => handleAdd(eduItems)}>Add</button>
+          <button onClick={() => handleAdd(eduItems)}>+</button>
         </section>
-        {/* edu */}
+        {/* exp */}
         <section className="exp-section">
           <h2>Experience</h2>
           {expItems.map((item) => (
@@ -95,7 +94,7 @@ export default function App() {
               onDelete={(id) => handleDelete("exp", id)}
             ></ExpItem>
           ))}
-          <button onClick={() => handleAdd(expItems)}>Add</button>
+          <button onClick={() => handleAdd(expItems)}>+</button>
         </section>
       </div>
     );
@@ -110,21 +109,11 @@ export default function App() {
             <b>Name: </b>
             {personalInfo.name}
           </p>
-          {personalInfo.email ? (
+          {personalInfo.email && (
             <p>
               <b>Email: </b> {personalInfo.email}
             </p>
-          ) : (
-            ""
           )}
-          {/* {personalInfo.phone ? ( */}
-          {/*   <p> */}
-          {/*     <b>Phone: </b> */}
-          {/*     {personalInfo.phone} */}
-          {/*   </p> */}
-          {/* ) : ( */}
-          {/*   "" */}
-          {/* )} */}
           {personalInfo.phone && (
             <p>
               <b>Phone: </b>
@@ -132,9 +121,7 @@ export default function App() {
             </p>
           )}
         </div>
-        {/* 
-          pinfoend 
-          */}
+        {/* pinfoend */}
         {eduItems.length ? (
           <>
             <hr />
@@ -168,12 +155,6 @@ export default function App() {
       </nav>
       <main>
         {showInput ? leftEl() : ""}
-        {/*
-
-        right 
-
-        */}
-
         {showPreview ? rightEl() : ""}
       </main>
     </div>
