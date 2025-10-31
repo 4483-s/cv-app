@@ -1,5 +1,4 @@
 export default function Pinfo({ info, onChange }) {
-  // console.log(p);
   return (
     <section className="personal-info">
       <h2>Personal information</h2>

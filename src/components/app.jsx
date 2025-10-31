@@ -55,116 +55,126 @@ export default function App() {
     else setExpItems([...t]);
   }
   function handleDelete(type, id) {
-    console.log(expItems);
     const t = type === "edu" ? eduItems : expItems;
     const i = t.findIndex((v) => v.id === id);
     if (type === "edu") setEduItems(t.toSpliced(i, 1));
     else setExpItems(t.toSpliced(i, 1));
   }
-  function leftEl() {}
+  function leftEl() {
+    return (
+      <div className="left">
+        {/* pinfo */}
+        <Pinfo info={personalInfo} onChange={handlePinfoChange}></Pinfo>
+        {/* pinfo */}
+        {/* edu */}
+        <section className="edu-section">
+          <h2>Education</h2>
+          {eduItems.map((item) => (
+            <EduItem
+              key={item.id}
+              id={item.id}
+              university={item.university}
+              degree={item.degree}
+              subject={item.subject}
+              onChange={(e) => handleOtherInfoChange("edu", e)}
+              onDelete={(id) => handleDelete("edu", id)}
+            ></EduItem>
+          ))}
+          <button onClick={() => handleAdd(eduItems)}>Add</button>
+        </section>
+        {/* edu */}
+        <section className="exp-section">
+          <h2>Experience</h2>
+          {expItems.map((item) => (
+            <ExpItem
+              key={item.id}
+              id={item.id}
+              company={item.company}
+              title={item.title}
+              onChange={(e) => handleOtherInfoChange("exp", e)}
+              onDelete={(id) => handleDelete("exp", id)}
+            ></ExpItem>
+          ))}
+          <button onClick={() => handleAdd(expItems)}>Add</button>
+        </section>
+      </div>
+    );
+  }
+  function rightEl() {
+    return (
+      <div className="right">
+        <div>
+          <h1>Personal Information</h1>
+          <hr />
+          <p>
+            <b>Name: </b>
+            {personalInfo.name}
+          </p>
+          {personalInfo.email ? (
+            <p>
+              <b>Email: </b> {personalInfo.email}
+            </p>
+          ) : (
+            ""
+          )}
+          {/* {personalInfo.phone ? ( */}
+          {/*   <p> */}
+          {/*     <b>Phone: </b> */}
+          {/*     {personalInfo.phone} */}
+          {/*   </p> */}
+          {/* ) : ( */}
+          {/*   "" */}
+          {/* )} */}
+          {personalInfo.phone && (
+            <p>
+              <b>Phone: </b>
+              {personalInfo.phone}
+            </p>
+          )}
+        </div>
+        {/* 
+          pinfoend 
+          */}
+        {eduItems.length ? (
+          <>
+            <hr />
+            <h2>Educational experience</h2>
+            <EduCard items={eduItems}></EduCard>
+          </>
+        ) : (
+          ""
+        )}
+        {expItems.length ? (
+          <>
+            <h2>Working experience</h2>
+            <ExpCard items={expItems}></ExpCard>
+          </>
+        ) : (
+          ""
+        )}
+      </div>
+    );
+  }
 
   return (
     <div className="container">
       <nav>
         <h1>Curriculum Vitae</h1>
         <div>
-          <button>Print</button>
+          <button onClick={() => window.print()}>Print</button>
           <button onClick={() => setShowInput(!showInput)}>Input</button>
           <button onClick={() => setShowPreview(!showPreview)}>Preview</button>
         </div>
       </nav>
       <main>
-        <div className="left">
-          {/* pinfo */}
-          <Pinfo info={personalInfo} onChange={handlePinfoChange}></Pinfo>
-          {/* pinfo */}
-          {/* edu */}
-          <section className="edu-section">
-            <h2>Education</h2>
-            {eduItems.map((item) => (
-              <EduItem
-                key={item.id}
-                id={item.id}
-                university={item.university}
-                degree={item.degree}
-                subject={item.subject}
-                onChange={(e) => handleOtherInfoChange("edu", e)}
-                onDelete={(id) => handleDelete("edu", id)}
-              ></EduItem>
-            ))}
-            <button onClick={() => handleAdd(eduItems)}>Add</button>
-          </section>
-          {/* edu */}
-          <section className="exp-section">
-            <h2>Experience</h2>
-            {expItems.map((item) => (
-              <ExpItem
-                key={item.id}
-                id={item.id}
-                company={item.company}
-                title={item.title}
-                onChange={(e) => handleOtherInfoChange("exp", e)}
-                onDelete={(id) => handleDelete("exp", id)}
-              ></ExpItem>
-            ))}
-            <button onClick={() => handleAdd(expItems)}>Add</button>
-          </section>
-        </div>
+        {showInput ? leftEl() : ""}
         {/*
 
         right 
 
         */}
-        <div className="right">
-          <div>
-            <h1>Personal Information</h1>
-            <hr />
-            <p>
-              <b>Name: </b>
-              {personalInfo.name}
-            </p>
-            {personalInfo.email ? (
-              <p>
-                <b>Email: </b> {personalInfo.email}
-              </p>
-            ) : (
-              ""
-            )}
-            {personalInfo.phone ? (
-              <p>
-                <b>Phone: </b>
-                {personalInfo.phone}
-              </p>
-            ) : (
-              ""
-            )}
-          </div>
-          {/* 
 
-          pinfoend 
-
-
-          */}
-          {eduItems.length ? (
-            <>
-              <hr />
-              <h2>Educational experience</h2>
-              <EduCard items={eduItems}></EduCard>
-            </>
-          ) : (
-            ""
-          )}
-
-          {expItems.length ? (
-            <>
-              <hr />
-              <h2>Working experience</h2>
-              <ExpCard items={expItems}></ExpCard>
-            </>
-          ) : (
-            ""
-          )}
-        </div>
+        {showPreview ? rightEl() : ""}
       </main>
     </div>
   );

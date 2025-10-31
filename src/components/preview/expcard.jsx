@@ -1,5 +1,4 @@
 export default function ExpCard({ items }) {
-  console.log(items);
   return (
     <div>
       {items.map((v) => (
