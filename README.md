@@ -1,3 +1,3 @@
 # CV maker with instant preview update
 
-[Link](https://curriculum-vitae-react.netlify.app)
+[Link to the website](https://curriculum-vitae-react.netlify.app)
